@@ -15,15 +15,18 @@ public class AnagramsSortedStringHash extends AnagramsClass {
 
     public AnagramsSortedStringHash(String inputFile) {
         super(inputFile);
+        hashMethod = "sorted strings";
     }
     
 
     public void buildSets() {
         System.out.println("[Sorted String Hash] Building sets of anagrams for: " + filename);
         int wordCount = 0;
+        long start;
+        long end; 
         
-        long start = System.nanoTime();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            start = System.nanoTime(); // start timer
             String word;
             while ((word = reader.readLine()) != null) {
                 wordCount++;
@@ -31,11 +34,12 @@ public class AnagramsSortedStringHash extends AnagramsClass {
                 if (hash.isEmpty()) continue;
                 anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
             }
+            end = System.nanoTime(); // end timer
         } catch (IOException e) {
             System.out.println("[Sorted String Hash] [ERROR] " + e);
             return;
         }
-        long end = System.nanoTime();
+        
         executionTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
         System.out.println("[Sorted String Hash] Execution time: " + executionTime + " ms");

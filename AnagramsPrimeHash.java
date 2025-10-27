@@ -72,14 +72,17 @@ public class AnagramsPrimeHash extends AnagramsClass {
 
     public AnagramsPrimeHash(String inputFile) {
         super(inputFile);
+        hashMethod = "primes";
     }
 
     public void buildSets() {
         System.out.println("[Prime Hash] Building sets of anagrams for: " + filename);
         int wordCount = 0;
-
-        long start = System.nanoTime();
+        long start;
+        long end;
+        
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            start = System.nanoTime();
             String word;
             while ((word = reader.readLine()) != null) {
                 Integer hash = computePrimeHash(word, false);
@@ -92,9 +95,10 @@ public class AnagramsPrimeHash extends AnagramsClass {
                     Integer sizeCurr = word.length();
 
                     if (sizePrev != sizeCurr) {
-                        System.out.println("[Prime Hash] Clashing hashes! ");
-                        System.out.println("\texist:\t" + wordPrev);
-                        System.out.println("\tnew:\t" + word);
+                        // System.out.println("[Prime Hash] Clashing hashes! ");
+                        // System.out.println("\texist:\t" + wordPrev);
+                        // System.out.println("\tnew:\t" + word);
+                        continue;
                     } 
                     else anagramSets.get(hash).add(word);
                 }
@@ -104,12 +108,12 @@ public class AnagramsPrimeHash extends AnagramsClass {
                     anagramSets.put(hash, newSet);
                 }
             }
+            end = System.nanoTime();
         } catch (IOException e) {
             System.out.println("[Prime Hash] [ERROR] " + e);
             return;
         }
 
-        long end = System.nanoTime();
         executionTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
         System.out.println("[Prime Hash] Execution time: " + executionTime + " ms");

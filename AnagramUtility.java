@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +48,7 @@ public class AnagramUtility {
         if (hashMethod == "sorted string")
             setBuilderStringHash.displayStats();
         else if (hashMethod == "primes") 
-            setBuilderStringHash.displayStats();
+            setBuilderPrimeHash.displayStats();
         else
             System.out.println("[ERROR. displayStats()] Unknown hash method: " + hashMethod);
     }
