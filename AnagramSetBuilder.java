@@ -1,13 +1,15 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 
 public class AnagramSetBuilder {
-    private Map<Integer, ArrayList<String>> anagramSets = new HashMap<>();
+    private Map<Integer, Set<String>> anagramSets = new HashMap<>();
     private static final Map<Character, Integer> LETTER_PRIMES = new HashMap<>() {{
         put('a', 2);
         put('b', 3);
@@ -49,7 +51,7 @@ public class AnagramSetBuilder {
                 // System.out.println("Hash: " + hash);
                 if (hash <= 1) continue;
 
-                anagramSets.computeIfAbsent(hash, k -> new ArrayList<>()).add(word);
+                anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
                 // System.out.println("Set: " + anagramSets.get(hash));
             }
         } catch (IOException e) {
@@ -60,7 +62,7 @@ public class AnagramSetBuilder {
 
     public void printSets() {
         System.out.println("\nThe set: ");
-        for (Map.Entry<Integer, ArrayList<String>> set : anagramSets.entrySet()) { 
+        for (Map.Entry<Integer, Set<String>> set : anagramSets.entrySet()) { 
             System.out.println(set);
         }
     }
@@ -72,9 +74,9 @@ public class AnagramSetBuilder {
 
         } else { 
             Integer count = 0;
-            for (Map.Entry<Integer, ArrayList<String>> anagramMap : anagramSets.entrySet()) {
+            for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
                 Integer hash = anagramMap.getKey();
-                ArrayList<String> anagramArray = anagramMap.getValue();
+                Set<String> anagramArray = anagramMap.getValue();
                 
                 if (anagramArray.size() > 1) { 
                     count += 1;
