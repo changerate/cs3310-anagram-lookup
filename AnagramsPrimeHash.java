@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 import java.util.HashMap;
@@ -40,8 +42,8 @@ public class AnagramsPrimeHash {
     }};
 
     
-    public void buildSetsPrimeHash(String wordListFilename) {
-        System.out.println("Building sets of anagrams for: " + wordListFilename);
+    public void buildSets(String wordListFilename) {
+        System.out.println("[Prime Hash] Building sets of anagrams for: " + wordListFilename);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(wordListFilename))) {
             String word;
@@ -49,12 +51,12 @@ public class AnagramsPrimeHash {
                 Integer hash = computeUnorderedPrimeHash(word);
                 if (hash <= 1) continue;
                 anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
-                // System.out.println("Word: \'" + word + "\'");
-                // System.out.println("Hash: " + hash);
-                // System.out.println("Set: " + anagramSets.get(hash));
+                // System.out.println("[Prime Hash] Word: \'" + word + "\'");
+                // System.out.println("[Prime Hash] Hash: " + hash);
+                // System.out.println("[Prime Hash] Set: " + anagramSets.get(hash));
             }
         } catch (IOException e) {
-            System.out.println("\n[ERROR] " + e);
+            System.out.println("[Prime Hash] [ERROR] " + e);
         }
     }
 
@@ -65,7 +67,7 @@ public class AnagramsPrimeHash {
 
         for (char ch : word.toLowerCase().toCharArray()) {
             Integer prime = LETTER_PRIMES.get(ch);
-            // System.out.println("The prime: " + prime);
+            // System.out.println("[Prime Hash] The prime: " + prime);
             if (prime == null) continue; // for non-alphacharacters (excluding ')
             hash = (hash * prime) % M; 
         }
@@ -74,13 +76,13 @@ public class AnagramsPrimeHash {
 
 
     public void printSets(boolean allSizes) {
-        System.out.println("\nThe sets: ");
-        for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
-            Integer hash = anagramMap.getKey();
-            Set<String> anagramArray = anagramMap.getValue();
+        System.out.println("[Prime Hash] The sets: ");
+        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+            Integer hash = anagramMapEntry.getKey();
+            Set<String> anagramArray = anagramMapEntry.getValue();
             
             if (allSizes || anagramArray.size() > 1) { 
-                System.out.println("Key: " + hash + " → " + anagramArray);
+                System.out.println("[Prime Hash] Key: " + hash + " → " + anagramArray);
             }
         }
     }
@@ -89,17 +91,34 @@ public class AnagramsPrimeHash {
     public void printNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
             // TODO: make this print statement clear
-            System.out.println("\nThere are " + anagramSets.size() + " sets of anagrams in this file.");
+            System.out.println("[Prime Hash] There are " + anagramSets.size() + " sets of anagrams in this file.");
         } else { 
             Integer count = 0;
-            for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMap.getValue();
+            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Set<String> anagramArray = anagramMapEntry.getValue();
                 
                 if (anagramArray.size() > 1) { 
                     count += 1;
                 }
             }
-            System.out.println("\nThere are " + count + " sets of anagrams in this file.");
+            System.out.println("[Prime Hash] There are " + count + " sets of anagrams in this file.");
+        }
+    }
+
+    public void saveSetsToFile(boolean allSizes, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write("The sets:\n");
+            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Integer hash = anagramMapEntry.getKey();
+                Set<String> anagramArray = anagramMapEntry.getValue();
+
+                if (allSizes || anagramArray.size() > 1) {
+                    writer.write("Key: " + hash + " → " + anagramArray + "\n");
+                }
+            }
+            System.out.println("[Prime Hash] Anagram sets saved to " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
