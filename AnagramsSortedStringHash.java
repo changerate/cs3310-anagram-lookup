@@ -10,32 +10,35 @@ import java.util.Map;
 import java.util.Arrays;
 
 
-public class AnagramsSortedStringHash {
+public class AnagramsSortedStringHash extends AnagramsClass {
     private Map<String, Set<String>> anagramSets = new HashMap<>();
 
+    public AnagramsSortedStringHash(String inputFile) {
+        super(inputFile);
+    }
+    
 
-    public void buildSets(String wordListFilename) {
-        long start = System.nanoTime();
-        System.out.println("[Sorted String Hash] Building sets of anagrams for: " + wordListFilename);
+    public void buildSets() {
+        System.out.println("[Sorted String Hash] Building sets of anagrams for: " + filename);
+        int wordCount = 0;
         
-        try (BufferedReader reader = new BufferedReader(new FileReader(wordListFilename))) {
+        long start = System.nanoTime();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String word;
             while ((word = reader.readLine()) != null) {
+                wordCount++;
                 String hash = computeSortedStringHash(word);
                 if (hash.isEmpty()) continue;
                 anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
-                // System.out.println("[Sorted String Hash] Word: \'" + word + "\'");
-                // System.out.println("[Sorted String Hash] Hash: " + hash);
-                // System.out.println("[Sorted String Hash] Set: " + anagramSets.get(hash));
             }
         } catch (IOException e) {
             System.out.println("[Sorted String Hash] [ERROR] " + e);
             return;
         }
-        
         long end = System.nanoTime();
-        double elapsedMs = (end - start) / 1_000_000.0;
-        System.out.println("[Sorted String Hash] Execution time for " + anagramSets.size() + " lines: " + elapsedMs + " ms");
+        executionTime = (end - start) / 1_000_000.0;
+        numWordsInFile = wordCount;
+        System.out.println("[Sorted String Hash] Execution time: " + executionTime + " ms");
     }
 
 
@@ -76,6 +79,7 @@ public class AnagramsSortedStringHash {
         }
     }
 
+
     public void saveSetsToFile(boolean allSizes, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write("The sets:\n");
@@ -91,6 +95,8 @@ public class AnagramsSortedStringHash {
         }
     }
 
+    
+    // ==== ACCESSORS 
     public Map<String, Set<String>> getSets() {
         Map<String, Set<String>> sets = new HashMap<>();
 
@@ -103,4 +109,21 @@ public class AnagramsSortedStringHash {
         return sets;
     }
 
+
+    public Integer getNumberOfSets(boolean allSizes) { 
+        if (allSizes) { 
+            // TODO: make this print statement clear
+            return anagramSets.size();
+        } else { 
+            Integer count = 0;
+            for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Set<String> anagramArray = anagramMapEntry.getValue();
+                
+                if (anagramArray.size() > 1) { 
+                    count += 1;
+                }
+            }
+            return count;
+        }
+    }
 }

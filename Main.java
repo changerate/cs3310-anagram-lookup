@@ -12,7 +12,10 @@ public class Main {
         System.out.println("\n-------------------------------------------------------");
         // anagrams.hashChecker("deoppilation", "cenospecies", true);
         System.out.println("\n-------------------------------------------------------");
-        anagrams.checkForDifferences();
+        // anagrams.checkForDifferences();
+        System.out.println("\n-------------------------------------------------------");
+        anagrams.displayStats("sorted string");
+        anagrams.displayStats("primes");
         System.out.println("\n-------------------------------------------------------");
     }
 }

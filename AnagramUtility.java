@@ -4,15 +4,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class AnagramUtility {
-    private static AnagramsPrimeHash setBuilderPrimeHash = new AnagramsPrimeHash();
-    private static AnagramsSortedStringHash setBuilderStringHash = new AnagramsSortedStringHash();
-    private static String wordListFilename;
+    private static AnagramsPrimeHash setBuilderPrimeHash;
+    private static AnagramsSortedStringHash setBuilderStringHash;
 
     
     public AnagramUtility(String filename) {
-        setBuilderPrimeHash.buildSets(filename);
-        setBuilderStringHash.buildSets(filename);
-        wordListFilename = filename;
+        setBuilderPrimeHash = new AnagramsPrimeHash(filename);
+        setBuilderStringHash = new AnagramsSortedStringHash(filename);
+        setBuilderPrimeHash.buildSets();
+        setBuilderStringHash.buildSets();
     }
 
     public void setTester(String postfix) {
@@ -42,5 +42,15 @@ public class AnagramUtility {
 
         primeHash = setBuilderPrimeHash.computePrimeHash(word2, robustOutput);
         System.out.println("[Prime Hash] Hash from word \'" + word2 + "\': " + primeHash);
+    }
+
+
+    public void displayStats(String hashMethod) {
+        if (hashMethod == "sorted string")
+            setBuilderStringHash.displayStats();
+        else if (hashMethod == "primes") 
+            setBuilderStringHash.displayStats();
+        else
+            System.out.println("[ERROR. displayStats()] Unknown hash method: " + hashMethod);
     }
 }

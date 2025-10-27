@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 
-public class AnagramsPrimeHash {
+public class AnagramsPrimeHash extends AnagramsClass {
     private Map<Integer, Set<String>> anagramSets = new HashMap<>();
     private static final Map<Character, Integer> LETTER_PRIMES = new HashMap<>() {{
         put('a', 2);
@@ -70,11 +70,16 @@ public class AnagramsPrimeHash {
         put('-', 251);
     }};
 
-    public void buildSets(String wordListFilename) {
+    public AnagramsPrimeHash(String inputFile) {
+        super(inputFile);
+    }
+
+    public void buildSets() {
+        System.out.println("[Prime Hash] Building sets of anagrams for: " + filename);
+        int wordCount = 0;
+
         long start = System.nanoTime();
-        System.out.println("[Prime Hash] Building sets of anagrams for: " + wordListFilename);
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(wordListFilename))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String word;
             while ((word = reader.readLine()) != null) {
                 Integer hash = computePrimeHash(word, false);
@@ -102,11 +107,12 @@ public class AnagramsPrimeHash {
         } catch (IOException e) {
             System.out.println("[Prime Hash] [ERROR] " + e);
             return;
-              }
+        }
 
         long end = System.nanoTime();
-        double elapsedMs = (end - start) / 1_000_000.0;
-        System.out.println("[Prime Hash] Execution time for " + anagramSets.size() + " lines: " + elapsedMs + " ms");
+        executionTime = (end - start) / 1_000_000.0;
+        numWordsInFile = wordCount;
+        System.out.println("[Prime Hash] Execution time: " + executionTime + " ms");
     }
 
 
@@ -195,6 +201,7 @@ public class AnagramsPrimeHash {
         }
     }
 
+    // ==== ACCESSORS 
 
     public Map<String, Set<String>> getSets() {
         Map<String, Set<String>> sets = new HashMap<>();
@@ -206,5 +213,19 @@ public class AnagramsPrimeHash {
                 sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
         }
         return sets;
+    }
+    public Integer getNumberOfSets(boolean allSizes) { 
+        if (allSizes) { 
+            // TODO: make this print statement clear
+            return anagramSets.size();
+        } else { 
+            Integer count = 0;
+            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Set<String> anagramArray = anagramMapEntry.getValue();
+                if (anagramArray.size() > 1)
+                    count += 1;
+            }
+            return count;
+        }
     }
 }
