@@ -39,14 +39,14 @@ public class AnagramsSortedStringHash {
         return new String(wordArray);
     }
 
-    
+
     public void printSets(boolean allSizes) {
         System.out.println("[Sorted String Hash] The sets: ");
         for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-            String hash = anagramMapEntry.getKey();
             Set<String> anagramArray = anagramMapEntry.getValue();
-            
             if (allSizes || anagramArray.size() > 1) { 
+                String hash = anagramMapEntry.getKey();
+            
                 System.out.println("[Sorted String Hash] Key: " + hash + " → " + anagramArray);
             }
         }
@@ -74,11 +74,9 @@ public class AnagramsSortedStringHash {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write("The sets:\n");
             for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                String hash = anagramMapEntry.getKey();
                 Set<String> anagramArray = anagramMapEntry.getValue();
-
                 if (allSizes || anagramArray.size() > 1) {
-                    writer.write("Key: " + hash + " → " + anagramArray + "\n");
+                    writer.write("Key: " + computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
                 }
             }
             System.out.println("[Sorted String Hash] Anagram sets saved to " + filename);

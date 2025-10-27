@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class AnagramsPrimeHash {
         try (BufferedReader reader = new BufferedReader(new FileReader(wordListFilename))) {
             String word;
             while ((word = reader.readLine()) != null) {
-                Integer hash = computeUnorderedPrimeHash(word);
+                Integer hash = computePrimeHash(word);
                 if (hash <= 1) continue;
                 anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
                 // System.out.println("[Prime Hash] Word: \'" + word + "\'");
@@ -61,7 +62,7 @@ public class AnagramsPrimeHash {
     }
 
 
-    private int computeUnorderedPrimeHash(String word) {
+    private Integer computePrimeHash(String word) {
         long hash = 1L; // long necessary for multuiplication
         final long M  = 2147483647L; // 2^31-1 as long
 
@@ -75,13 +76,20 @@ public class AnagramsPrimeHash {
     }
 
 
+    private String computeSortedStringHash(String word) {
+        char[] wordArray = word.toLowerCase().toCharArray();
+        Arrays.sort(wordArray);
+        return new String(wordArray);
+    }
+
+
     public void printSets(boolean allSizes) {
         System.out.println("[Prime Hash] The sets: ");
         for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-            Integer hash = anagramMapEntry.getKey();
             Set<String> anagramArray = anagramMapEntry.getValue();
-            
             if (allSizes || anagramArray.size() > 1) { 
+                String hash = computeSortedStringHash(anagramArray.iterator().next());
+            
                 System.out.println("[Prime Hash] Key: " + hash + " → " + anagramArray);
             }
         }
@@ -109,11 +117,9 @@ public class AnagramsPrimeHash {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write("The sets:\n");
             for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Integer hash = anagramMapEntry.getKey();
                 Set<String> anagramArray = anagramMapEntry.getValue();
-
                 if (allSizes || anagramArray.size() > 1) {
-                    writer.write("Key: " + hash + " → " + anagramArray + "\n");
+                    writer.write("Key: " + computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
                 }
             }
             System.out.println("[Prime Hash] Anagram sets saved to " + filename);
