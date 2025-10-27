@@ -75,6 +75,7 @@ public class AnagramsPrimeHash extends AnagramsClass {
         hashMethod = "primes";
     }
 
+    @Override 
     public void buildSets() {
         System.out.println("[Prime Hash] Building sets of anagrams for: " + filename);
         int wordCount = 0;
@@ -137,30 +138,32 @@ public class AnagramsPrimeHash extends AnagramsClass {
     }
 
 
-    public Integer computePrimeHashPrefix(String word, boolean robustOutput) {
-        long hash = 1L; // long necessary for multuiplication
-        final long M  = 2_147_483_647L; // 2^31-1 as long
-
-        for (char ch : word.toLowerCase().toCharArray()) {
-            Integer prime = LETTER_PRIMES.get(ch);
-            if (prime == null) {
-                System.out.println("[Prime Hash] 👺 Skipping word with the char: " + ch);
-                continue; 
-            }
-            hash = (hash * prime) % M; 
-            if (robustOutput) System.out.println("\t\tThe hash: " + hash);
-        }
-        return (int) hash;
-    }
-
-
-    private String computeSortedStringHash(String word) {
+    @Override 
+    public String computeSortedStringHash(String word) {
         char[] wordArray = word.toLowerCase().toCharArray();
         Arrays.sort(wordArray);
         return new String(wordArray);
     }
 
 
+    @Override 
+    public void saveSetsToFile(boolean allSizes, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write("The sets:\n");
+            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Set<String> anagramArray = anagramMapEntry.getValue();
+                if (allSizes || anagramArray.size() > 1) {
+                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
+                }
+            }
+            System.out.println("[Prime Hash] Anagram sets saved to " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override 
     public void printSets(boolean allSizes) {
         System.out.println("[Prime Hash] The sets: ");
         for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
@@ -174,6 +177,7 @@ public class AnagramsPrimeHash extends AnagramsClass {
     }
 
 
+    @Override 
     public void printNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
             // TODO: make this print statement clear
@@ -190,34 +194,10 @@ public class AnagramsPrimeHash extends AnagramsClass {
         }
     }
 
-    public void saveSetsToFile(boolean allSizes, String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("The sets:\n");
-            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMapEntry.getValue();
-                if (allSizes || anagramArray.size() > 1) {
-                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
-                }
-            }
-            System.out.println("[Prime Hash] Anagram sets saved to " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     // ==== ACCESSORS 
 
-    public Map<String, Set<String>> getSets() {
-        Map<String, Set<String>> sets = new HashMap<>();
-
-        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-            Set<String> anagramArray = anagramMapEntry.getValue();
-            String hash = computeSortedStringHash(anagramArray.iterator().next());
-            if (anagramArray.size() > 1)
-                sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
-        }
-        return sets;
-    }
+    @Override 
     public Integer getNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
             // TODO: make this print statement clear
@@ -231,5 +211,17 @@ public class AnagramsPrimeHash extends AnagramsClass {
             }
             return count;
         }
+    }
+    @Override 
+    public Map<String, Set<String>> getSets() {
+        Map<String, Set<String>> sets = new HashMap<>();
+
+        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+            Set<String> anagramArray = anagramMapEntry.getValue();
+            String hash = computeSortedStringHash(anagramArray.iterator().next());
+            if (anagramArray.size() > 1)
+                sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
+        }
+        return sets;
     }
 }

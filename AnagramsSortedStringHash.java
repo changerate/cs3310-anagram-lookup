@@ -19,6 +19,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
     
 
+    @Override 
     public void buildSets() {
         System.out.println("[Sorted String Hash] Building sets of anagrams for: " + filename);
         int wordCount = 0;
@@ -46,6 +47,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
 
 
+    @Override 
     public String computeSortedStringHash(String word) {
         char[] wordArray = word.toLowerCase().toCharArray();
         Arrays.sort(wordArray);
@@ -53,6 +55,24 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
 
 
+    @Override 
+    public void saveSetsToFile(boolean allSizes, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write("The sets:\n");
+            for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+                Set<String> anagramArray = anagramMapEntry.getValue();
+                if (allSizes || anagramArray.size() > 1) {
+                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
+                }
+            }
+            System.out.println("[Sorted String Hash] Anagram sets saved to " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    @Override 
     public void printSets(boolean allSizes) {
         System.out.println("[Sorted String Hash] The sets: ");
         for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
@@ -66,6 +86,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
 
 
+    @Override 
     public void printNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
             // TODO: make this print statement clear
@@ -84,23 +105,8 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
 
 
-    public void saveSetsToFile(boolean allSizes, String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("The sets:\n");
-            for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMapEntry.getValue();
-                if (allSizes || anagramArray.size() > 1) {
-                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
-                }
-            }
-            System.out.println("[Sorted String Hash] Anagram sets saved to " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    
     // ==== ACCESSORS 
+    @Override 
     public Map<String, Set<String>> getSets() {
         Map<String, Set<String>> sets = new HashMap<>();
 
@@ -114,6 +120,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
     }
 
 
+    @Override 
     public Integer getNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
             // TODO: make this print statement clear
