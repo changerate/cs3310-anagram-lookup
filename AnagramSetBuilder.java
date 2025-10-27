@@ -59,6 +59,20 @@ public class AnagramSetBuilder {
     }
 
 
+    private int computeUnorderedHash(String word) {
+        long hash = 1L; // long necessary for multuiplication
+        final long M  = 2147483647L; // 2^31-1 as long
+
+        for (char ch : word.toLowerCase().toCharArray()) {
+            Integer prime = LETTER_PRIMES.get(ch);
+            // System.out.println("The prime: " + prime);
+            if (prime == null) continue; // for non-alphacharacters (excluding ')
+            hash = (hash * prime) % M; 
+        }
+        return (int) hash;
+    }
+
+
     public void printSets(boolean allSizes) {
         System.out.println("\nThe sets: ");
         for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
@@ -89,19 +103,4 @@ public class AnagramSetBuilder {
             System.out.println("\nThere are " + count + " sets of anagrams in this file.");
         }
     }
-
-
-    private int computeUnorderedHash(String word) {
-        long hash = 1L; // long necessary for multuiplication
-        final long M  = 2147483647L; // 2^31-1 as long
-
-        for (char ch : word.toLowerCase().toCharArray()) {
-            Integer prime = LETTER_PRIMES.get(ch);
-            // System.out.println("The prime: " + prime);
-            if (prime == null) continue; // for non-alphacharacters (excluding ')
-            hash = (hash * prime) % M; 
-        }
-        return (int) hash;
-    }
-
 }
