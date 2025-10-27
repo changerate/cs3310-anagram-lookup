@@ -1,12 +1,26 @@
 public class Main {
     public static void main(String[] args) {
-        AnagramSetBuilder setBuilder = new AnagramSetBuilder();
+        AnagramsSortedStringHash setBuilderStringHash = new AnagramsSortedStringHash();
+        AnagramsPrimeHash setBuilderPrimeHash = new AnagramsPrimeHash();
         
-        // setBuilder.buildSets("words.txt"); // class file - 100k words
-        // setBuilder.buildSets("words"); // /usr/share/dict/words - 250k words
-        // setBuilder.buildSets("wordswords"); // /usr/share/dict/words multiplied - 10 million words
-        setBuilder.buildSets("words2.txt");
-        setBuilder.printNumberOfSets(true);
-        setBuilder.printSets(false);
+        // USING A PRIME HASH
+        // setBuilderPrimeHash.buildSets("words.txt"); // class file - 100k words
+        // setBuilderPrimeHash.buildSets("words"); // /usr/share/dict/words - 250k words
+        setBuilderPrimeHash.buildSetsPrimeHash("wordswords"); // /usr/share/dict/words multiplied - 10 million words
+        // setBuilderPrimeHash.buildSets("words2.txt"); // my custom file
+        
+        // USING A STRING HASH
+        // setBuilderStringHash.buildSets("words.txt"); // class file - 100k words
+        // setBuilderStringHash.buildSets("words"); // /usr/share/dict/words - 250k words
+        setBuilderStringHash.buildSetsStringHash("wordswords"); // /usr/share/dict/words multiplied - 10 million words
+        // setBuilderStringHash.buildSets("words2.txt"); // my custom file
+        
+        // USING A PRIME HASH
+        setBuilderPrimeHash.printNumberOfSets(false);
+        // setBuilderPrimeHash.printSets(true);
+
+        // USING A STRING HASH
+        setBuilderStringHash.printNumberOfSets(false);
+        // setBuilderStringHash.printSets(false);
     }
 }
