@@ -14,10 +14,10 @@ public class AnagramsSortedStringHash {
     private Map<String, Set<String>> anagramSets = new HashMap<>();
 
 
-
     public void buildSets(String wordListFilename) {
+        long start = System.nanoTime();
         System.out.println("[Sorted String Hash] Building sets of anagrams for: " + wordListFilename);
-
+        
         try (BufferedReader reader = new BufferedReader(new FileReader(wordListFilename))) {
             String word;
             while ((word = reader.readLine()) != null) {
@@ -30,7 +30,12 @@ public class AnagramsSortedStringHash {
             }
         } catch (IOException e) {
             System.out.println("[Sorted String Hash] [ERROR] " + e);
+            return;
         }
+        
+        long end = System.nanoTime();
+        double elapsedMs = (end - start) / 1_000_000.0;
+        System.out.println("[Sorted String Hash] Execution time for " + anagramSets.size() + " lines: " + elapsedMs + " ms");
     }
 
 
@@ -95,8 +100,6 @@ public class AnagramsSortedStringHash {
             if (anagramArray.size() > 1)
                 sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
         }
-        System.out.println("[Prime Hash] There are " + sets.size() + " sets of anagrams in this file.");
-
         return sets;
     }
 
