@@ -7,11 +7,11 @@ public class Main {
         // int hash = table.computeUnorderedHash(word);
         // System.out.println("\nHash value for \'" + word + "\': " + hash + "\n");
         
-        // setBuilder.buildSets("fuck");
         // setBuilder.buildSets("words.txt");
         // setBuilder.buildSets("words");
+        // setBuilder.buildSets("wordswords");
         setBuilder.buildSets("words2.txt");
-        // setBuilder.printSets();
-        setBuilder.printNumberOfSets(false);
+        setBuilder.printNumberOfSets(true);
+        setBuilder.printSets(false);
     }
 }

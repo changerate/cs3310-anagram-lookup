@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -42,16 +41,16 @@ public class AnagramSetBuilder {
 
     
     public void buildSets(String wordListFileName) {
+        System.out.println("Building sets of anagrams for: " + wordListFileName);
+
         try (BufferedReader reader = new BufferedReader(new FileReader(wordListFileName))) {
             String word;
             while ((word = reader.readLine()) != null) {
-                // System.out.println("Word: \'" + word + "\'");
-
                 Integer hash = computeUnorderedHash(word);
-                // System.out.println("Hash: " + hash);
                 if (hash <= 1) continue;
-
                 anagramSets.computeIfAbsent(hash, k -> new HashSet<>()).add(word);
+                // System.out.println("Word: \'" + word + "\'");
+                // System.out.println("Hash: " + hash);
                 // System.out.println("Set: " + anagramSets.get(hash));
             }
         } catch (IOException e) {
@@ -60,18 +59,23 @@ public class AnagramSetBuilder {
     }
 
 
-    public void printSets() {
-        System.out.println("\nThe set: ");
-        for (Map.Entry<Integer, Set<String>> set : anagramSets.entrySet()) { 
-            System.out.println(set);
+    public void printSets(boolean allSizes) {
+        System.out.println("\nThe sets: ");
+        for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
+            Integer hash = anagramMap.getKey();
+            Set<String> anagramArray = anagramMap.getValue();
+            
+            if (allSizes || anagramArray.size() > 1) { 
+                System.out.println("Key: " + hash + " → " + anagramArray);
+            }
         }
     }
 
 
     public void printNumberOfSets(boolean allSizes) { 
         if (allSizes) { 
+            // TODO: make this print statement clear
             System.out.println("\nThere are " + anagramSets.size() + " sets of anagrams in this file.");
-
         } else { 
             Integer count = 0;
             for (Map.Entry<Integer, Set<String>> anagramMap : anagramSets.entrySet()) {
@@ -80,12 +84,10 @@ public class AnagramSetBuilder {
                 
                 if (anagramArray.size() > 1) { 
                     count += 1;
-                    System.out.println("Key: " + hash + " → " + anagramArray);
                 }
             }
             System.out.println("\nThere are " + count + " sets of anagrams in this file.");
         }
-
     }
 
 
