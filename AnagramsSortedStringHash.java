@@ -24,7 +24,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
         int wordCount = 0;
         long start;
         long end; 
-        
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             start = System.nanoTime(); // start timer
             String word;
@@ -42,7 +42,7 @@ public class AnagramsSortedStringHash extends AnagramsClass {
         
         executionTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
-        System.out.println("[Sorted String Hash] Execution time: " + executionTime + " ms");
+        // System.out.println("[Sorted String Hash] Execution time: " + executionTime + " ms");
     }
 
 

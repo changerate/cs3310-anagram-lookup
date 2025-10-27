@@ -116,7 +116,7 @@ public class AnagramsPrimeHash extends AnagramsClass {
 
         executionTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
-        System.out.println("[Prime Hash] Execution time: " + executionTime + " ms");
+        // System.out.println("[Prime Hash] Execution time: " + executionTime + " ms");
     }
 
 

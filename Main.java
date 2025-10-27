@@ -7,20 +7,15 @@ public class Main {
 
         AnagramUtility anagrams = new AnagramUtility(filename);
         
-        System.out.println("\n-------------------------------------------------------");
+        // System.out.println("\n-------------------------------------------------------");
         // anagrams.setTester("Outfile");
-        System.out.println("\n-------------------------------------------------------");
+        // System.out.println("\n-------------------------------------------------------");
         // anagrams.hashChecker("deoppilation", "cenospecies", true);
-        System.out.println("\n-------------------------------------------------------");
+        // System.out.println("\n-------------------------------------------------------");
         // anagrams.checkForDifferences();
-        System.out.println("\n-------------------------------------------------------");
+        // System.out.println("\n-------------------------------------------------------");
         anagrams.displayStats("sorted string");
         anagrams.displayStats("primes");
-        System.out.println("\n-------------------------------------------------------");
+        // System.out.println("\n-------------------------------------------------------");
     }
 }
-
-
-
-// deoppilation
-// cenospecies
