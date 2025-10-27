@@ -14,6 +14,7 @@ public class AnagramsSortedStringHash {
     private Map<String, Set<String>> anagramSets = new HashMap<>();
 
 
+
     public void buildSets(String wordListFilename) {
         System.out.println("[Sorted String Hash] Building sets of anagrams for: " + wordListFilename);
 
@@ -33,7 +34,7 @@ public class AnagramsSortedStringHash {
     }
 
 
-    private String computeSortedStringHash(String word) {
+    public String computeSortedStringHash(String word) {
         char[] wordArray = word.toLowerCase().toCharArray();
         Arrays.sort(wordArray);
         return new String(wordArray);
@@ -47,7 +48,7 @@ public class AnagramsSortedStringHash {
             if (allSizes || anagramArray.size() > 1) { 
                 String hash = anagramMapEntry.getKey();
             
-                System.out.println("[Sorted String Hash] Key: " + hash + " → " + anagramArray);
+                System.out.println("[Sorted String Hash] " + hash + " → " + anagramArray);
             }
         }
     }
@@ -76,7 +77,7 @@ public class AnagramsSortedStringHash {
             for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
                 Set<String> anagramArray = anagramMapEntry.getValue();
                 if (allSizes || anagramArray.size() > 1) {
-                    writer.write("Key: " + computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
+                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
                 }
             }
             System.out.println("[Sorted String Hash] Anagram sets saved to " + filename);
@@ -84,4 +85,19 @@ public class AnagramsSortedStringHash {
             e.printStackTrace();
         }
     }
+
+    public Map<String, Set<String>> getSets() {
+        Map<String, Set<String>> sets = new HashMap<>();
+
+        for (Map.Entry<String, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+            Set<String> anagramArray = anagramMapEntry.getValue();
+            String hash = computeSortedStringHash(anagramArray.iterator().next());
+            if (anagramArray.size() > 1)
+                sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
+        }
+        System.out.println("[Prime Hash] There are " + sets.size() + " sets of anagrams in this file.");
+
+        return sets;
+    }
+
 }

@@ -13,36 +13,22 @@ import java.util.Map;
 public class AnagramsPrimeHash {
     private Map<Integer, Set<String>> anagramSets = new HashMap<>();
     private static final Map<Character, Integer> LETTER_PRIMES = new HashMap<>() {{
-        put('a', 2);
-        put('b', 3);
-        put('c', 5);
-        put('d', 7);
-        put('e', 11);
-        put('f', 13);
-        put('g', 17);
-        put('h', 19);
-        put('i', 23);
-        put('j', 29);
-        put('k', 31);
-        put('l', 37);
-        put('m', 41);
-        put('n', 43);
-        put('o', 47);
-        put('p', 53);
-        put('q', 59);
-        put('r', 61);
-        put('s', 67);
-        put('t', 71);
-        put('u', 73);
-        put('v', 79);
-        put('w', 83);
-        put('x', 89);
-        put('y', 97);
-        put('z', 101);
-        put('\'', 103);
+        put('a', 2);  put('á', 3);  put('à', 5);  put('â', 7);  put('ä', 11);  put('ã', 13);
+        put('b', 17); put('c', 19); put('ç', 23);
+        put('d', 29); put('e', 31); put('é', 37); put('è', 41); put('ê', 43); put('ë', 47);
+        put('f', 53); put('g', 59); put('h', 61);
+        put('i', 67); put('í', 71); put('ì', 73); put('î', 79); put('ï', 83);
+        put('j', 89); put('k', 97); put('l', 101);
+        put('m', 103); put('n', 107); put('ñ', 109);
+        put('o', 113); put('ó', 127); put('ò', 131); put('ô', 137); put('ö', 139); put('õ', 149);
+        put('p', 151); put('q', 157); put('r', 163);
+        put('s', 167); put('t', 173);
+        put('u', 179); put('ú', 181); put('ù', 191); put('û', 193); put('ü', 197);
+        put('v', 199); put('w', 211); put('x', 223);
+        put('y', 227); put('ý', 229); put('ÿ', 233);
+        put('z', 239); put('\'', 241);
     }};
 
-    
     public void buildSets(String wordListFilename) {
         System.out.println("[Prime Hash] Building sets of anagrams for: " + wordListFilename);
 
@@ -62,7 +48,7 @@ public class AnagramsPrimeHash {
     }
 
 
-    private Integer computePrimeHash(String word) {
+    public Integer computePrimeHash(String word) {
         long hash = 1L; // long necessary for multuiplication
         final long M  = 2147483647L; // 2^31-1 as long
 
@@ -90,7 +76,7 @@ public class AnagramsPrimeHash {
             if (allSizes || anagramArray.size() > 1) { 
                 String hash = computeSortedStringHash(anagramArray.iterator().next());
             
-                System.out.println("[Prime Hash] Key: " + hash + " → " + anagramArray);
+                System.out.println("[Prime Hash] " + hash + " → " + anagramArray);
             }
         }
     }
@@ -119,12 +105,27 @@ public class AnagramsPrimeHash {
             for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
                 Set<String> anagramArray = anagramMapEntry.getValue();
                 if (allSizes || anagramArray.size() > 1) {
-                    writer.write("Key: " + computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
+                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
                 }
             }
             System.out.println("[Prime Hash] Anagram sets saved to " + filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public Map<String, Set<String>> getSets() {
+        Map<String, Set<String>> sets = new HashMap<>();
+
+        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
+            Set<String> anagramArray = anagramMapEntry.getValue();
+            String hash = computeSortedStringHash(anagramArray.iterator().next());
+            if (anagramArray.size() > 1)
+                sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
+        }
+        System.out.println("[Prime Hash] There are " + sets.size() + " sets of anagrams in this file.");
+
+        return sets;
     }
 }
