@@ -1,8 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        // String filename = "words.txt"; // class file - 100k words
-        String filename = "words"; // /usr/share/dict/words - 250k words
-        // String filename = "wordswords"; // /usr/share/dict/words multiplied - 10 million words
+        String filename = "words.txt"; // class file - 100k words
+        // String filename = "words"; // /usr/share/dict/words - 250k words
         // String filename = "words2.txt"; // my custom file
 
         AnagramUtility anagrams = new AnagramUtility(filename);
@@ -17,5 +16,6 @@ public class Main {
         anagrams.displayStats("sorted string");
         anagrams.displayStats("primes");
         // System.out.println("\n-------------------------------------------------------");
+        // anagrams.printSets("sorted string", false);
     }
 }

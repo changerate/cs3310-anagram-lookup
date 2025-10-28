@@ -52,4 +52,24 @@ public class AnagramUtility {
         else
             System.out.println("[ERROR. displayStats()] Unknown hash method: " + hashMethod);
     }
+
+
+    public void printNumberOfSets(String hashMethod, boolean allSizes) {
+        if (hashMethod == "sorted string")
+            setBuilderStringHash.printNumberOfSets(allSizes);
+        else if (hashMethod == "primes") 
+            setBuilderPrimeHash.printNumberOfSets(allSizes);
+        else
+            System.out.println("[ERROR. printNumberOfSets()] Unknown hash method: " + hashMethod);
+    }
+
+
+    public void printSets(String hashMethod, boolean allSizes) {
+        if (hashMethod == "sorted string")
+            setBuilderStringHash.printSets(allSizes);
+        else if (hashMethod == "primes") 
+            setBuilderPrimeHash.printSets(allSizes);
+        else
+            System.out.println("[ERROR. printSets()] Unknown hash method: " + hashMethod);
+    }
 }
