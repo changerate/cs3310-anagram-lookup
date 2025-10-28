@@ -70,6 +70,10 @@ public class AnagramsPrimeHash extends AnagramsClass {
         put('-', 251);
     }};
 
+    /**********************************************
+     * Constructor 
+     * @param inputFile
+     **********************************************/
     public AnagramsPrimeHash(String inputFile) {
         super(inputFile);
         hashMethod = "primes";
@@ -115,9 +119,9 @@ public class AnagramsPrimeHash extends AnagramsClass {
             return;
         }
 
-        executionTime = (end - start) / 1_000_000.0;
+        fileReadAndSetBuildTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
-        // System.out.println("[Prime Hash] Execution time: " + executionTime + " ms");
+        // System.out.println("[Prime Hash] Execution time: " + fileReadAndSetBuildTime + " ms");
     }
 
 

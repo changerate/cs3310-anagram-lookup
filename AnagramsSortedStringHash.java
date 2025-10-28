@@ -13,12 +13,19 @@ import java.util.Arrays;
 public class AnagramsSortedStringHash extends AnagramsClass {
     private Map<String, Set<String>> anagramSets = new HashMap<>();
 
+    /**********************************************
+     * Constructor 
+     * @param inputFile
+     **********************************************/
     public AnagramsSortedStringHash(String inputFile) {
         super(inputFile);
         hashMethod = "sorted strings";
     }
     
 
+    /**********************************************
+     * 
+     **********************************************/
     @Override 
     public void buildSets() {
         System.out.println("[Sorted String Hash] Building sets of anagrams for: " + filename);
@@ -41,9 +48,9 @@ public class AnagramsSortedStringHash extends AnagramsClass {
             return;
         }
         
-        executionTime = (end - start) / 1_000_000.0;
+        fileReadAndSetBuildTime = (end - start) / 1_000_000.0;
         numWordsInFile = wordCount;
-        // System.out.println("[Sorted String Hash] Execution time: " + executionTime + " ms");
+        // System.out.println("[Sorted String Hash] Execution time: " + fileReadAndSetBuildTime + " ms");
     }
 
 

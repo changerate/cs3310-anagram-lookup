@@ -3,7 +3,7 @@ import java.util.Map;
 
 
 public abstract class AnagramsClass {
-    protected double executionTime; // The time it took to build the sets 
+    protected double fileReadAndSetBuildTime;
     protected int numWordsInFile; // Number of words in the input file
     protected String filename;
     protected String hashMethod;
@@ -23,15 +23,15 @@ public abstract class AnagramsClass {
         System.out.println("Within the file \'" + filename + "\', " + numWordsInFile + " words were found.");
         System.out.println("Total sets: " + getNumberOfSets(true));
         System.out.println("Sets of two or more: " + getNumberOfSets(false));
-        System.out.println("Execution time to find these sets: " + executionTime + "ms");
+        System.out.println("Execution time to read the file AND find these sets: " + fileReadAndSetBuildTime + "ms");
         System.out.println("==========================================================================");
     }
         
     // ========== ACCESSORS 
     public abstract Integer getNumberOfSets(boolean allSizes);
     public abstract Map<String, Set<String>> getSets();
-    public double getExecutionTime() { 
-        return executionTime;
+    public double getTime() { 
+        return fileReadAndSetBuildTime;
     }
     public Integer getWordCount() { 
         return numWordsInFile;
