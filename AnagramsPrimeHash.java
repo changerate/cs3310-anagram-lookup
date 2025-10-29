@@ -1,17 +1,14 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 
+
 public class AnagramsPrimeHash extends AnagramsClass {
-    private Map<Integer, Set<String>> anagramSets = new HashMap<>();
     private static final Map<Character, Integer> LETTER_PRIMES = new HashMap<>() {{
         // This is a hashmap sorted by frequency of letters in the file words.txt
         put('s', 2);
@@ -78,8 +75,10 @@ public class AnagramsPrimeHash extends AnagramsClass {
      **********************************************/
     public AnagramsPrimeHash(String inputFile) {
         super(inputFile);
-        hashMethod = "primes";
+        hashMethod = "Primes Hash";
     }
+
+
 
     @Override 
     public void buildSets() {
@@ -93,8 +92,8 @@ public class AnagramsPrimeHash extends AnagramsClass {
             start = System.nanoTime();
             while ((word = reader.readLine()) != null) {
                 wordCount++;
-                Integer hash = computePrimeHash(word, false);
-                if (hash <= 1) continue;
+                String hash = computePrimeHash(word, false);
+                if (hash == "1") continue;
 
                 // first check if the string has the same number of chars
                 if (anagramSets.get(hash) != null) {
@@ -128,7 +127,8 @@ public class AnagramsPrimeHash extends AnagramsClass {
     }
 
 
-    public Integer computePrimeHash(String word, boolean robustOutput) {
+
+    public String computePrimeHash(String word, boolean robustOutput) {
         long hash = 1L; // long necessary for multuiplication
         final long M  = 2_147_483_647L; // 2^31-1 as long
 
@@ -141,94 +141,6 @@ public class AnagramsPrimeHash extends AnagramsClass {
             hash = (hash * prime) % M; 
             if (robustOutput) System.out.println("\t\tThe hash: " + hash);
         }
-        return (int) hash;
-    }
-
-
-    @Override 
-    public String computeSortedStringHash(String word) {
-        char[] wordArray = word.toLowerCase().toCharArray();
-        Arrays.sort(wordArray);
-        return new String(wordArray);
-    }
-
-
-    @Override 
-    public void saveSetsToFile(boolean allSizes, String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("The sets:\n");
-            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMapEntry.getValue();
-                if (allSizes || anagramArray.size() > 1) {
-                    writer.write(computeSortedStringHash(anagramArray.iterator().next()) + " → " + anagramArray + "\n");
-                }
-            }
-            System.out.println("[Prime Hash] Anagram sets saved to " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override 
-    public void printSets(boolean allSizes) {
-        System.out.println("[Prime Hash] The sets: ");
-        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-            Set<String> anagramArray = anagramMapEntry.getValue();
-            if (allSizes || anagramArray.size() > 1) { 
-                String hash = computeSortedStringHash(anagramArray.iterator().next());
-            
-                System.out.println("[Prime Hash] " + hash + " → " + anagramArray);
-            }
-        }
-    }
-
-
-    @Override 
-    public void printNumberOfSets(boolean allSizes) { 
-        if (allSizes) { 
-            // TODO: make this print statement clear
-            System.out.println("[Prime Hash] There are " + anagramSets.size() + " sets of anagrams in this file.");
-        } else { 
-            Integer count = 0;
-            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMapEntry.getValue();
-                if (anagramArray.size() > 1) { 
-                    count += 1;
-                }
-            }
-            System.out.println("[Prime Hash] There are " + count + " sets of anagrams in this file.");
-        }
-    }
-
-
-    // ==== ACCESSORS 
-
-    @Override 
-    public Integer getNumberOfSets(boolean allSizes) { 
-        if (allSizes) { 
-            // TODO: make this print statement clear
-            return anagramSets.size();
-        } else { 
-            Integer count = 0;
-            for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-                Set<String> anagramArray = anagramMapEntry.getValue();
-                if (anagramArray.size() > 1)
-                    count += 1;
-            }
-            return count;
-        }
-    }
-    @Override 
-    public Map<String, Set<String>> getSets() {
-        Map<String, Set<String>> sets = new HashMap<>();
-
-        for (Map.Entry<Integer, Set<String>> anagramMapEntry : anagramSets.entrySet()) {
-            Set<String> anagramArray = anagramMapEntry.getValue();
-            String hash = computeSortedStringHash(anagramArray.iterator().next());
-            if (anagramArray.size() > 1)
-                sets.computeIfAbsent(hash, k -> new HashSet<>()).addAll(anagramArray);
-        }
-        return sets;
+        return String.valueOf((int) hash);
     }
 }

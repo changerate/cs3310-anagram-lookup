@@ -36,7 +36,7 @@ public class AnagramUtility {
 
 
     public void hashChecker(String word1, String word2, boolean robustOutput) {
-        Integer primeHash = setBuilderPrimeHash.computePrimeHash(word1, robustOutput);
+        String primeHash = setBuilderPrimeHash.computePrimeHash(word1, robustOutput);
         System.out.println("[Prime Hash] Hash from word \'" + word1 + "\': " + primeHash);
 
         primeHash = setBuilderPrimeHash.computePrimeHash(word2, robustOutput);
@@ -44,32 +44,20 @@ public class AnagramUtility {
     }
 
 
-    public void displayStats(String hashMethod) {
-        if (hashMethod == "sorted string")
-            setBuilderStringHash.displayStats();
-        else if (hashMethod == "primes") 
-            setBuilderPrimeHash.displayStats();
-        else
-            System.out.println("[ERROR. displayStats()] Unknown hash method: " + hashMethod);
+    public void displayStats() {
+        setBuilderStringHash.displayStats();
+        setBuilderPrimeHash.displayStats();
     }
 
 
-    public void printNumberOfSets(String hashMethod, boolean allSizes) {
-        if (hashMethod == "sorted string")
-            setBuilderStringHash.printNumberOfSets(allSizes);
-        else if (hashMethod == "primes") 
-            setBuilderPrimeHash.printNumberOfSets(allSizes);
-        else
-            System.out.println("[ERROR. printNumberOfSets()] Unknown hash method: " + hashMethod);
+    public void printNumberOfSets(boolean allSizes) {
+        setBuilderStringHash.printNumberOfSets(allSizes);
+        setBuilderPrimeHash.printNumberOfSets(allSizes);
     }
 
 
-    public void printSets(String hashMethod, boolean allSizes) {
-        if (hashMethod == "sorted string")
-            setBuilderStringHash.printSets(allSizes);
-        else if (hashMethod == "primes") 
-            setBuilderPrimeHash.printSets(allSizes);
-        else
-            System.out.println("[ERROR. printSets()] Unknown hash method: " + hashMethod);
+    public void printSets(boolean allSizes) {
+        setBuilderStringHash.printSets(allSizes);
+        setBuilderPrimeHash.printSets(allSizes);
     }
 }
