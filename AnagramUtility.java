@@ -14,7 +14,7 @@ public class AnagramUtility {
         setBuilderStringHash.buildSets();
     }
 
-    public void setTester(String postfix) {
+    public void saveSetsToFile(String postfix) {
         setBuilderPrimeHash.saveSetsToFile(false, "setsPrime" + postfix + ".txt");
         setBuilderStringHash.saveSetsToFile(false, "setsString" + postfix + ".txt");
     }

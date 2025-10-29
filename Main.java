@@ -1,20 +1,21 @@
 public class Main {
     public static void main(String[] args) {
-        String filename = "words.txt"; // class file - 100k words
-        // String filename = "words"; // /usr/share/dict/words - 250k words
-        // String filename = "words2.txt"; // my custom file
+        // String filename = "words.txt"; // class file - ~100k words
+        String filename = "words"; // /usr/share/dict/words - ~250k words
 
+        System.out.println("\n--------------------------------------------------------------------------");
         AnagramUtility anagrams = new AnagramUtility(filename);
-        
-        // System.out.println("\n-------------------------------------------------------");
-        // anagrams.setTester("Outfile");
-        // System.out.println("\n-------------------------------------------------------");
-        // anagrams.hashChecker("deoppilation", "cenospecies", true);
-        // System.out.println("\n-------------------------------------------------------");
+
+        // System.out.println("\n--------------------------------------------------------------------------");
         // anagrams.checkForDifferences();
-        // System.out.println("\n-------------------------------------------------------");
-        anagrams.displayStats("sorted string");
+
+        System.out.println("\n--------------------------------------------------------------------------");
+        anagrams.saveSetsToFile(filename);
+        
+        System.out.println("\n");
         anagrams.displayStats("primes");
+        anagrams.displayStats("sorted string");
+
         // System.out.println("\n-------------------------------------------------------");
         // anagrams.printSets("sorted string", false);
     }

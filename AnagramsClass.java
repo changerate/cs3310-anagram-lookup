@@ -21,8 +21,8 @@ public abstract class AnagramsClass {
         System.out.println("==========================================================================");
         System.out.println("Using the " + hashMethod + " method of hashing:");
         System.out.println("Within the file \'" + filename + "\', " + numWordsInFile + " words were found.");
-        System.out.println("Total sets: " + getNumberOfSets(true));
-        System.out.println("Sets of two or more: " + getNumberOfSets(false));
+        System.out.println("Total sets:\t\t" + getNumberOfSets(true));
+        System.out.println("Sets of two or more:\t\t\t" + getNumberOfSets(false));
         System.out.println("Execution time to read the file AND find these sets: " + fileReadAndSetBuildTime + "ms");
         System.out.println("==========================================================================");
     }
