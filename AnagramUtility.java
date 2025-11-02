@@ -42,8 +42,8 @@ public class AnagramUtility {
      * @param postfix the filename postfix to distinguish outputs
      *********************************************************/
     public void saveSetsToFile(String postfix) {
-        setBuilderPrimeHash.saveSetsToFile(false, "setsPrime" + postfix);
-        setBuilderStringHash.saveSetsToFile(false, "setsString" + postfix);
+        setBuilderPrimeHash.saveSetsToFile(false, "setsOutputPrime" + postfix);
+        setBuilderStringHash.saveSetsToFile(false, "setsOutputString" + postfix);
     }
 
 
