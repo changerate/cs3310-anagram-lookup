@@ -1,5 +1,5 @@
 # CS 3310, Design and Analysis of Algorithms
-At Cal Poly Pomona, Fall 2025 – **Assignment 3**
+At Cal Poly Pomona, Fall 2025 – **Assignment 2**
 ## Description 
 This program primarly creates sets of anagrams based on a given text file. 
 

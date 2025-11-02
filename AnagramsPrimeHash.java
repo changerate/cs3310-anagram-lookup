@@ -1,3 +1,16 @@
+/**************************************************************
+ * Carlos Vargas
+ * Cal Poly Pomona -- CS 3310
+ * Fall 2025
+ * Programming Assignment 2
+ * ------------------------------------------------------------
+ * File: AnagramPrimeHash.java
+ * Purpose: this class extends the AnagramsClass abstract class 
+ * in order to add the implementation of hashing using the
+ * product of the prime numbers assocaited with each character. 
+ **************************************************************/
+
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -80,6 +93,27 @@ public class AnagramsPrimeHash extends AnagramsClass {
 
 
 
+    /*********************************************************
+     * Function buildSets; this simultansoulsly reads a file 
+     * and builds sets of anagrams. For each word/line it 
+     * finds the matching hash using the product of the prime
+     * numbers asociated with each character. 
+     * 
+     * Because of the nature of this hashing algorithm, it IS 
+     * possible to double assign words to hashes that shouldn't
+     * be anagrams. 
+     * I attempt to get around this by double checking that 
+     * the currect word has the same number of characters as 
+     * a given word with the associated hash. This brings 
+     * down the likelyhood of clashing hashes. 
+     * 
+     * It attempts to be efficient by storing the mapping of 
+     * primes sorted by the character frequency of the characters 
+     * in the file words.txt.
+     * 
+     * @return this fills out the anagramSets class var with 
+     * ALL the sets of anagrams. 
+     *********************************************************/
     @Override 
     public void buildSets() {
         System.out.println("[Prime Hash] Building sets of anagrams for: " + filename);
@@ -128,6 +162,16 @@ public class AnagramsPrimeHash extends AnagramsClass {
 
 
 
+    /*********************************************************
+     * Function computePrimeHash; this method computes a hash 
+     * value for a given word by multiplying the prime values 
+     * associated with each character and taking the modulus 
+     * with 2^31 - 1. 
+     * 
+     * @param word the input word to hash
+     * @param robustOutput if true, prints intermediate hash values
+     * @return the final computed hash as a string
+     *********************************************************/
     public String computePrimeHash(String word, boolean robustOutput) {
         long hash = 1L; // long necessary for multuiplication
         final long M  = 2_147_483_647L; // 2^31-1 as long

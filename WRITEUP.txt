@@ -1,0 +1,35 @@
+"""
+What is the theoretical worst-case running time of the algorithm you implemented (i.e. in Θ-notation), expressed in terms of the number of words n in the input file? Justify your answer.
+"""
+
+
+The worst-case runtime of this algorithm is the case where there are NO anagrams in the given file, and every word is long. This means that for every word the file comes across, it will check to see if the hash already exists (it will not find it), and then it will add it to the hash — which in turn increases the search time for the next word. 
+
+n_q is the number of characters of the nth word. 
+
+# Prime Number Hashing 
+Looking at just the set building function: 
+for each word O(n) time: 
+	compute prime hash in O(n_q) time: 
+		for every character: 
+			find the corresponding prime in O(1) time 
+			multiply it by the current hash in O(1) time 
+		convert product into string in O(1) time 
+	comparison O(1) time  
+	hashmap lookup O(1) time  
+	add to hashmap O(1) time  
+
+This means that in the worst case scenario the time complexity is Θ(n*n_q)
+
+
+# Sorted String Hashing 
+Looking at just the set building function: 
+for each word O(n) time: 
+	compute sorted string hash: 
+		…
+Array.sort(char[]) uses dual-pivot quicksort in Θ(n^2) worst case time: 
+	hashmap lookup O(1) time  
+	comparison O(1) time  
+	add to hashmap O(1) time  
+
+This means that in the worst case scenario the time complexity is Θ(n*n^2)

@@ -1,8 +1,26 @@
-import java.io.File;
+/**************************************************************
+ * Carlos Vargas
+ * Cal Poly Pomona -- CS 3310
+ * Fall 2025
+ * Programming Assignment 2
+ * ------------------------------------------------------------
+ * File: Main.java
+ * Purpose: This is the entry point of the program. 
+ * We utilize the AnagramUtility class in order to demonstrate 
+ * building anagram sets for both versions of hashing.
+ **************************************************************/
+
+
+ import java.io.File;
 
 
 
 public class Main {
+    /*********************************************************
+     * Function: main; run this function in order to see the 
+     * anagram set building in action. 
+     * @param args
+     *********************************************************/
     public static void main(String[] args) {
 
         String filename = "words.txt"; // class file - 99,171 words
