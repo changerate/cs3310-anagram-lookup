@@ -3,7 +3,7 @@ At Cal Poly Pomona, Fall 2025 – **Assignment 2**
 ## Description 
 This program primarly creates sets of anagrams based on a given text file. 
 
-Another functionality of this program is that it compares the efficiency of two different hashing methods. **In the first method** I create a hash out of the alphabetical sorting of the string. **In the second method** I create a hash by computing the product of the string when every character is assigned a prime number (See the LETTER_PRIMES map to see how the characters are assigned primes).
+Another functionality of this program is that it compares the efficiency of two different hashing methods. **In the first method** I create a hash out of the alphabetical sorting of the string. **In the second method** I create a hash by computing the product of the string when every character is assigned a prime number (See the LETTER_PRIMES map to see the order in which the characters are assigned primes).
 
 ## Compilation instructions 
 from the root dir run: 
@@ -16,7 +16,7 @@ java Main.java
 ```
 If you want to run your own word file just include it as an argument:
 ```
-java Main.java mywords.txt
+java Main.java ./path/mywords.txt
 ```
 
 
